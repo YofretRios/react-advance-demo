@@ -11,7 +11,7 @@ const Home: NextPage = () => {
       </Head>
       <h1 className="text-6xl font-bold">Demo Section</h1>
 
-      <p className="mt-3 text-2xl">Disclaimer: Contrived example mostly</p>
+      <p className="mt-3 text-xl">Disclaimer: Contrived example mostly</p>
 
       <div className="mt-6 flex flex-col max-w-4xl items-center justify-around sm:w-full">
         <Link href="/use-imperative-handle">
