@@ -256,9 +256,9 @@ const ChatDemo: NextPage = () => {
 
   return (
     <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-      <h1 className="text-xl">Blade Runner 2077</h1>
+      <h1 className="text-2xl">Blade Runner 2077</h1>
 
-      <div className="mb-4">
+      <div className="my-4">
         <button
           onClick={addMessage}
           className="px-4 py-2 font-semibold text-sm bg-cyan-500 text-white rounded-full shadow-sm"
@@ -274,7 +274,7 @@ const ChatDemo: NextPage = () => {
       </div>
       <MessageDisplay ref={messageDisplayRef} messages={messages} />
 
-      <div className="mb-4">
+      <div className="my-4">
         <button
           onClick={scrollTop}
           className="px-4 py-2 font-semibold text-sm bg-cyan-500 text-white rounded-full shadow-sm"
