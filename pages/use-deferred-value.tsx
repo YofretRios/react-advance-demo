@@ -24,8 +24,8 @@ type City = {
 const options = {
   method: "GET",
   headers: {
-    "X-RapidAPI-Key": "3af519504bmsh8363e675970d3dep14b92fjsn29dfea87a318",
-    "X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com",
+    "X-RapidAPI-Key": process.env.NEXT_PUBLIC_RAPID_API_KEY || '',
+    "X-RapidAPI-Host": process.env.NEXT_PUBLIC_RAPID_API_HOST || '',
   },
 };
 
@@ -54,6 +54,13 @@ const Suggestions = ({ query }: { query: string }) => {
   useEffect(() => {
     const fetchCountrySuggestion = async (query: string) => {
       try {
+        if (
+          !options.headers["X-RapidAPI-Host"] &&
+          !options.headers["X-RapidAPI-Key"]
+        ) {
+          throw new Error("Missing RapidAPI key");
+        }
+
         const response = await fetch(
           `https://weatherapi-com.p.rapidapi.com/search.json?q=${query}`,
           options
@@ -98,7 +105,7 @@ const Suggestions = ({ query }: { query: string }) => {
 const UseDeferredValue: NextPage = () => {
   const [value, setValue] = useState("");
   // const query = useDeferredValue(value);
-  
+
   // const suggestions = useMemo(
   //   () => <Suggestions query={query} />,
   //   [query]
