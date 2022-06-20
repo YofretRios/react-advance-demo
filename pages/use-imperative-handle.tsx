@@ -13,14 +13,14 @@ type MessageSectionHandle = {
   scrollToBottom: () => void;
 };
 
+type MessageSectionProps = {
+  messages: Array<Message>;
+};
+
 type Message = {
   id: number;
   user: string;
   message: string;
-};
-
-type MessageSectionProps = {
-  messages: Array<Message>;
 };
 
 const allMessages: Array<Message> = [
@@ -233,9 +233,11 @@ const MessageSection = (
   );
 };
 
+// TODO wrap component in forwardRef
 const MessageDisplay = forwardRef<MessageSectionHandle, MessageSectionProps>(MessageSection);
 
 const ChatDemo: NextPage = () => {
+  // TODO create a ref for the message section component
   const messageDisplayRef = useRef<MessageSectionHandle>(null);
   const [messages, setMessages] = useState(allMessages.slice(0, 8));
 
@@ -248,12 +250,13 @@ const ChatDemo: NextPage = () => {
       ? setMessages(allMessages.slice(0, messages.length - 1))
       : null;
 
-  const scrollTop = () => messageDisplayRef?.current?.scrollToTop();
-  const scrollBottom = () => messageDisplayRef?.current?.scrollToBottom();
+  // TODO create methods using exposed refs
+  const scrollTop = () => messageDisplayRef.current?.scrollToTop();
+  const scrollBottom = () => messageDisplayRef.current?.scrollToBottom();
 
   return (
     <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-      <h1>Chat Demo</h1>
+      <h1 className="text-xl">Blade Runner 2077</h1>
 
       <div className="mb-4">
         <button
