@@ -1,10 +1,17 @@
 import type { NextPage } from "next";
-import {
+import React, {
   useState,
   useRef,
-  useLayoutEffect,
   useEffect,
+  forwardRef,
+  useImperativeHandle,
+  ForwardedRef,
 } from "react";
+
+type MessageSectionHandle = {
+  scrollToTop: () => void;
+  scrollToBottom: () => void;
+};
 
 type Message = {
   id: number;
@@ -185,28 +192,37 @@ const allMessages: Array<Message> = [
   },
 ];
 
-const MessageSection = ({ messages }: MessageSectionProps) => {
-  const containerRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+const MessageSection = (
+  { messages }: MessageSectionProps,
+  ref: ForwardedRef<MessageSectionHandle>
+) => {
+  const containerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   useEffect(() => {
-    scrollToBottom()
-  })
+    scrollToBottom();
+  });
+
+  // TODO expose scrollToTop and scrollToBottom through refs
+  useImperativeHandle(ref, () => ({
+    scrollToTop,
+    scrollToBottom,
+  }));
 
   function scrollToTop() {
     if (containerRef.current) {
-      containerRef.current.scrollTop = 0
+      containerRef.current.scrollTop = 0;
     }
-    
   }
   function scrollToBottom() {
     if (containerRef.current) {
-      containerRef.current.scrollTop = containerRef.current.scrollHeight
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
   }
 
-  // TODO expose scrollToTop and scrollToBottom through refs
-
   return (
-    <div ref={containerRef} className="text-left w-1/2 border-2 h-80 overflow-auto p-4">
+    <div
+      ref={containerRef}
+      className="text-left w-1/2 border-2 h-80 overflow-auto p-4"
+    >
       {messages.map((message, index, array) => (
         <div key={message.id}>
           <strong>{message.user}</strong>: <span>{message.message}</span>
@@ -217,7 +233,10 @@ const MessageSection = ({ messages }: MessageSectionProps) => {
   );
 };
 
+const MessageDisplay = forwardRef<MessageSectionHandle, MessageSectionProps>(MessageSection);
+
 const ChatDemo: NextPage = () => {
+  const messageDisplayRef = useRef<MessageSectionHandle>(null);
   const [messages, setMessages] = useState(allMessages.slice(0, 8));
 
   const addMessage = () =>
@@ -229,15 +248,43 @@ const ChatDemo: NextPage = () => {
       ? setMessages(allMessages.slice(0, messages.length - 1))
       : null;
 
+  const scrollTop = () => messageDisplayRef?.current?.scrollToTop();
+  const scrollBottom = () => messageDisplayRef?.current?.scrollToBottom();
+
   return (
     <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
       <h1>Chat Demo</h1>
 
       <div className="mb-4">
-        <button onClick={addMessage} className="px-4 py-2 font-semibold text-sm bg-cyan-500 text-white rounded-full shadow-sm">add message</button>
-        <button onClick={removeMessage} className="px-4 py-2 font-semibold text-sm bg-cyan-500 text-white rounded-full shadow-sm">remove message</button>
+        <button
+          onClick={addMessage}
+          className="px-4 py-2 font-semibold text-sm bg-cyan-500 text-white rounded-full shadow-sm"
+        >
+          add message
+        </button>
+        <button
+          onClick={removeMessage}
+          className="px-4 py-2 font-semibold text-sm bg-cyan-500 text-white rounded-full shadow-sm"
+        >
+          remove message
+        </button>
       </div>
-      <MessageSection messages={messages} />
+      <MessageDisplay ref={messageDisplayRef} messages={messages} />
+
+      <div className="mb-4">
+        <button
+          onClick={scrollTop}
+          className="px-4 py-2 font-semibold text-sm bg-cyan-500 text-white rounded-full shadow-sm"
+        >
+          Scroll to top
+        </button>
+        <button
+          onClick={scrollBottom}
+          className="px-4 py-2 font-semibold text-sm bg-cyan-500 text-white rounded-full shadow-sm"
+        >
+          Scroll to bottom
+        </button>
+      </div>
     </main>
   );
 };
