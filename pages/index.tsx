@@ -26,7 +26,9 @@ const Home: NextPage = () => {
         <Link href="/use-debug-value">
           <a className="mt-6 w-3/4 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600">
             <h3 className="text-2xl font-bold">useDebugValue</h3>
-            <p className="mt-4 text-xl">Debugging custom hooks within the devtools itself</p>
+            <p className="mt-4 text-xl">
+              Debugging custom hooks within the devtools itself
+            </p>
           </a>
         </Link>
 

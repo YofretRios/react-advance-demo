@@ -234,7 +234,9 @@ const MessageSection = (
 };
 
 // TODO wrap component in forwardRef
-const MessageDisplay = forwardRef<MessageSectionHandle, MessageSectionProps>(MessageSection);
+const MessageDisplay = forwardRef<MessageSectionHandle, MessageSectionProps>(
+  MessageSection
+);
 
 const ChatDemo: NextPage = () => {
   // TODO create a ref for the message section component

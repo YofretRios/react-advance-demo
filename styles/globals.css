@@ -1,3 +1,5 @@
+@import '../components/Switch/switch.styles.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
