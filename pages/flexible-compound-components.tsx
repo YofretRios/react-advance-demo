@@ -1,3 +1,8 @@
+/**
+ * Real World Projects that use this pattern:
+ * [`@reach/accordion`](https://reacttraining.com/reach-ui/accordion)*
+ */
+
 import {
   FC,
   useState,

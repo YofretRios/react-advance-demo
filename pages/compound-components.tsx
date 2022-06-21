@@ -1,3 +1,8 @@
+/**
+ * Real World Projects that use this pattern:
+ * [`@reach/tabs`](https://reacttraining.com/reach-ui/tabs)
+ */
+
 import {
   FC,
   useState,
